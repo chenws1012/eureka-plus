@@ -10,7 +10,7 @@ eureka:
     serviceUrl:
        defaultZone: http://localhost:10001/eureka/
 #       defaultZone: http://freemud:freemud123@111.231.12.200:9130/eureka/
-#       defaultZone: http://freemud:freemud123@beiguo-eureka.sandload.cn/eureka/
+      # defaultZone: http://freemud:freemud123@beiguo-eureka.sandload.cn/eureka/
 logging:
   level:
     com:
