@@ -81,7 +81,7 @@ public class EurekaClientController {
 	/**
 	 * @description 界面请求转到第三方服务进行状态变更
 	 */
-	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
+//	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
 	public ResultMap status(@PathVariable String appName, String instanceId, String status){
 		Application application = eurekaClient.getApplication(appName);
 		InstanceInfo instanceInfo = application.getByInstanceId(instanceId);
@@ -118,6 +118,26 @@ public class EurekaClientController {
 		return ResultMap.buildSuccess();
 	}
 
+
+	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
+	public ResultMap status2(@PathVariable String appName, String instanceId, String status) {
+		Application application = eurekaClient.getApplication(appName);
+		InstanceInfo instanceInfo = application.getByInstanceId(instanceId);
+
+		List urls = eurekaClient.getEurekaClientConfig()
+				.getEurekaServerServiceUrls("defaultZone");
+
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add("Authorization", "Basic ZnJlZW11ZDpmcmVlbXVkMTIz");
+		HttpEntity<String> requestEntity = new HttpEntity<String>(null, requestHeaders);
+
+		String url = String.format("%sapps/%s/%s/status?value=%s",urls.get(0),appName,instanceId,status);
+
+		restTemplate.put(url,requestEntity);
+
+
+		return ResultMap.buildSuccess();
+	}
 
 
 	@RequestMapping(value = "metadata/{appName}", method = RequestMethod.POST)
